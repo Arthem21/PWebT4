@@ -1,0 +1,41 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\maxim\\Web\\viernes\\practica 4\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\practica_4.bundle.scp.css",
+      "PackagePath": "staticwebassets\\practica_4.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\maxim\\Web\\viernes\\practica 4\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "C:\\Users\\maxim\\Web\\viernes\\practica 4\\wwwroot\\bootstrap\\bootstrap.min.css",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css"
+    },
+    {
+      "Id": "C:\\Users\\maxim\\Web\\viernes\\practica 4\\wwwroot\\bootstrap\\bootstrap.min.css.map",
+      "PackagePath": "staticwebassets\\bootstrap\\bootstrap.min.css.map"
+    },
+    {
+      "Id": "C:\\Users\\maxim\\Web\\viernes\\practica 4\\wwwroot\\favicon.png",
+      "PackagePath": "staticwebassets\\favicon.png"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.practica_4.props",
+      "PackagePath": "build\\practica_4.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.practica_4.props",
+      "PackagePath": "buildMultiTargeting\\practica_4.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.practica_4.props",
+      "PackagePath": "buildTransitive\\practica_4.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.practica_4.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

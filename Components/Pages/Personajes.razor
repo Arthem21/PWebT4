@@ -1,0 +1,41 @@
+@page "/personaje"
+@inject Context ctx
+<h1>Personajes</h1>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apodo</th>
+            <th>Raza</th>
+            <th>Edad</th>
+            <th>Habilidad</th>
+            <th>Foto</th>
+            
+        </tr>
+    </thead>
+    <tbody>
+         @foreach(var x in personajes){
+            <tr>
+                <td>@x.nombre</td>
+                <td>@x.apodo</td>
+                <td>@x.raza</td>
+                <td>@x.edad</td>
+                <td>@x.habilidad</td>
+                <td><img src="@x.foto" alt="@x.nombre" width="100"></td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code{
+
+    List<personajes> personajes= new List<personajes>();
+
+    protected override async Task OnInitializedAsync() {
+      
+      personajes=ctx.personajes.ToList();
+      StateHasChanged();
+    }
+    
+}

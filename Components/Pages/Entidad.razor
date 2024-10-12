@@ -1,0 +1,131 @@
+﻿@page "/entidad/{tipo}"
+@rendermode InteractiveServer
+@inject NavigationManager NavMan
+@inject Context ctx
+@inject IJSRuntime jsx
+
+<h1>Mira tu @tipo favorito/a</h1>
+
+<div class="text-end">
+    <button type="button" class="btn btn-primary" @onclick="agregar">agregar</button>
+</div>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Pais</th>
+            <th>Personajes</th>
+            <th>Idioma</th>
+            <th>Resumen</th>
+            <th>Foto</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+         @foreach(Multimedia x in multimedias){
+            <tr>
+                <td>@((@x.nombre.Length >20)? @x.nombre.Substring(0,20) + "..." : @x.nombre)</td>
+                <td>@x.pais</td>
+                <td>@x.personajes.Count()</td>
+                <td>@x.idioma</td>
+                <td>@((@x.resumen.Length>20)? @x.resumen.Substring(0,20)+ "...": @x.resumen)</td>
+                <td><img src="@x.foto" alt="@x.nombre" width="100"></td>
+                <td>
+                    <div class="row">
+                    <button @onclick="() => editar(x.id)" class="btn btn-primary btn-sm mb-3">Editar</button>
+                        </div>
+                    <div class="row">
+                        <button @onclick="() => borrar(x.id)" class="btn btn-danger btn-sm mb-3">Borrar</button>
+                    </div>
+                </td>
+                
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code{
+
+    [Parameter]
+    public string tipo {get;set;}="";
+
+    tipoEntidad tipoEntidad= tipoEntidad.libro;
+
+     protected override void OnParametersSet(){
+      switch(tipo){
+         case "pelicula":
+            tipoEntidad=tipoEntidad.pelicula;
+            break;
+
+         case "libro":
+            tipoEntidad=tipoEntidad.libro;
+            break;
+
+         case "serie":
+            tipoEntidad=tipoEntidad.serie;
+            break;
+
+         default:
+            NavMan.NavigateTo("/");
+            break;
+        
+      }
+   }
+
+    List<Multimedia>?multimedias=new List<Multimedia>();
+
+    void agregar(){
+        NavMan.NavigateTo($"/entidad/{tipo}/editar");
+    }
+
+    private void editar(string id){
+        NavMan.NavigateTo($"/entidad/{tipo}/editar{id}");
+    }
+
+    async Task borrar(string id)
+{
+    var confirmacion = await jsx.InvokeAsync<bool>("confirm", "¿Desea borrar este elemento?");
+
+    if (confirmacion)
+    {
+        
+        foreach (Multimedia x in multimedias)
+        {
+            if (string.IsNullOrEmpty(x.id) || x.id.Equals(id))
+            {
+                ctx.multimedias.Remove(x);
+            }
+        }
+        await ctx.SaveChangesAsync();
+        StateHasChanged();
+    }
+}
+
+   protected override async Task OnAfterRenderAsync(bool render)
+{
+    if (render)
+    {
+        multimedias = ctx.multimedias
+                         .Where(x => x.tipo == tipoEntidad)
+                         .ToList();
+
+        var elementosAEliminar = multimedias.Where(x => string.IsNullOrEmpty(x.id)).ToList();
+        foreach (var elemento in elementosAEliminar)
+        {
+            ctx.multimedias.Remove(elemento);
+        }
+        
+        foreach (var multimedia in multimedias)
+        {
+            multimedia.personajes = ctx.personajes
+                                        .Where(p => p.multimediaID == multimedia.id)
+                                        .ToList();
+        }
+
+        await ctx.SaveChangesAsync();
+        StateHasChanged();
+    }
+}
+
+}
